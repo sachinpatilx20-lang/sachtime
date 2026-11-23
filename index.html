@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Finish Time Calculator</title>
+</head>
+<body>
+    <h1>Time Calculator</h1>
+
+    <p>Current Time: <strong id="currentTime"></strong></p>
+
+    <form onsubmit="calculateFinish(event)">
+        <p>
+            <label for="hours">Hours:</label><br>
+            <input type="number" id="hours" min="0" value="0">
+        </p>
+
+        <p>
+            <label for="minutes">Minutes:</label><br>
+            <input type="number" id="minutes" min="0" value="0">
+        </p>
+
+        <p>
+            <button type="submit">Calculate</button>
+        </p>
+    </form>
+
+    <h2>:-</h2>
+    <p id="result">Enter hours and minutes, then click Calculate.</p>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function calculateFinish(event) {
+            event.preventDefault();
+
+            const hours = parseInt(document.getElementById('hours').value, 10) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value, 10) || 0;
+
+            const now = new Date();
+            const finishDate = new Date(now.getTime() + (hours * 60 * 60 * 1000) + (minutes * 60 * 1000));
+
+            const timeStr = finishDate.toLocaleTimeString();
+            const isNextDay = finishDate.getDate() !== now.getDate();
+            const dateStr = isNextDay ? ` (on ${finishDate.toLocaleDateString()})` : ' (today)';
+
+            document.getElementById('result').textContent = timeStr + dateStr;
+        }
+    </script>
+</body>
+</html>
